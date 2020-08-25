@@ -15,7 +15,7 @@ router.post("/",
             }
             putData(chapterId,"aaa");
             dataUpload.push(chapterId);
-            if(dataUpload.length>=5){
+            if(dataUpload.length>=3){
                 return res.status(200).jsonp({
                     status:"Full"
                 });
@@ -34,7 +34,7 @@ router.post("/",
             chapterInfo.images = resultPromise ;
             chapterInfo.status_update_images=true ;
             chapterInfo.save();
-            dataUpload.splice(4,1);
+            dataUpload.splice(0,1);
             return res.status(200).jsonp({
                 status:"success",
                 data:chapterInfo
