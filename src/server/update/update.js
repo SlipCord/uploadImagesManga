@@ -35,14 +35,14 @@ router.post("/",
             chapterInfo.status_update_images=true ;
             chapterInfo.save();
             console.log("thanh cong");
-            dataUpload.splice(0,1);
+            dataUpload.shift();
             return res.status(200).jsonp({
                 status:"success",
                 data:chapterInfo
             });
         } catch (error) {
             console.log(error);
-            dataUpload.splice(0,1);
+            dataUpload.shift();
             return res.status(200).jsonp({
                 status:JSON.stringify(error)
             })
