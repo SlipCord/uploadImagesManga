@@ -34,6 +34,7 @@ router.post("/",
             chapterInfo.images = resultPromise ;
             chapterInfo.status_update_images=true ;
             chapterInfo.save();
+            console.log("thanh cong");
             dataUpload.splice(0,1);
             return res.status(200).jsonp({
                 status:"success",
@@ -41,6 +42,7 @@ router.post("/",
             });
         } catch (error) {
             console.log(error);
+            dataUpload.splice(0,1);
             return res.status(200).jsonp({
                 status:JSON.stringify(error)
             })
