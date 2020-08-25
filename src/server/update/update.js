@@ -2,7 +2,6 @@ import express from 'express';
 import {getDetialChapter,UploadImages} from './ModelUpdate';
 import {getData,putData} from './../../common/cache';
 const router = express.Router();
-let dataUpload =[];
 router.post("/",
     async(req,res)=>{
         try {
@@ -14,13 +13,17 @@ router.post("/",
                 });
             }
             putData(chapterId,"aaa");
-            dataUpload.push(chapterId);
-            if(dataUpload.length>=3){
+            let numberUpload = getData("NUMBER_UPLOAD");
+            if(!numberUpload){
+                numberUpload=0;
+            }
+            if(numberUpload>=3){
                 return res.status(200).jsonp({
                     status:"Full"
                 });
             }
-
+            numberUpload+=1 ;
+            putData("NUMBER_UPLOAD",numberUpload);
             let chapterInfo  = await getDetialChapter(chapterId);
             if(chapterInfo.status_update_images){
                 return res.status(200).jsonp({
@@ -35,14 +38,24 @@ router.post("/",
             chapterInfo.status_update_images=true ;
             chapterInfo.save();
             console.log("thanh cong");
-            dataUpload.shift();
+            numberUpload = getData("NUMBER_UPLOAD");
+            console.log(numberUpload);
+            if(!numberUpload){
+                numberUpload=0;
+            }
+            numberUpload -= 1 ;
+            putData("NUMBER_UPLOAD",numberUpload);
             return res.status(200).jsonp({
                 status:"success",
                 data:chapterInfo
             });
         } catch (error) {
             console.log(error);
-            dataUpload.shift();
+            let numberUpload = getData("NUMBER_UPLOAD");
+            if(numberUpload){
+                numberUpload -= 1 ;
+                putData("NUMBER_UPLOAD",numberUpload);
+            }
             return res.status(200).jsonp({
                 status:JSON.stringify(error)
             })
