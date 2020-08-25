@@ -17,7 +17,7 @@ router.post("/",
             if(!numberUpload){
                 numberUpload=0;
             }
-            if(numberUpload>=2){
+            if(numberUpload>=1){
                 return res.status(200).jsonp({
                     status:"Full"
                 });
