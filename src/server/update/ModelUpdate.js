@@ -8,6 +8,7 @@ const stream = require('stream');
 export const getDetialChapter = (id)=>{
     return ChapterDb.findById(id);
 }
+let dataUpload =[];
 export const UploadImages = (image)=>{
     return new Promise((resolve,eject)=>{
         const options = {
